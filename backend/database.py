@@ -1,15 +1,22 @@
-import mysql.connector        # biblioteca para conectar ao MySQL
-from dotenv import load_dotenv  # lê o arquivo .env
-import os                      # acessa as variáveis de ambiente
+import mysql.connector
+from dotenv import load_dotenv
+import os
 
-load_dotenv()                  # carrega as variáveis do .env
+load_dotenv()
 
 
 def conectar():
-    # cria e retorna uma conexão com o banco de dados
+    host = os.getenv("DB_HOST") or "127.0.0.1"
+    user = os.getenv("DB_USER") or "root"
+    password = os.getenv("DB_PASSWORD") or ""
+    database = os.getenv("DB_NAME") or "estudio_tatuagem"
+    port = int(os.getenv("DB_PORT") or "3306")
+
     return mysql.connector.connect(
-        host=os.getenv("DB_HOST"),          # endereço do servidor (localhost)
-        user=os.getenv("DB_USER"),          # usuário do banco
-        password=os.getenv("DB_PASSWORD"),  # senha do banco
-        database=os.getenv("DB_NAME")       # nome do banco
+        host=host,
+        port=port,
+        user=user,
+        password=password,
+        database=database,
+        autocommit=False,
     )
